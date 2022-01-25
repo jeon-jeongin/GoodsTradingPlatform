@@ -1,7 +1,5 @@
 # GoodsTradingPlatform
 
----
-
 멀티캠퍼스 지능형 웹서비스 풀스택 개발 교육 (semi-project)
 
 2022.01.21~2022.02.15
