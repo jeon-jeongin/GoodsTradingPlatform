@@ -7,19 +7,18 @@ function Footer(){
   return (
   <React.Fragment>
     <div style={{
-      position: "fixed",
       bottom: "0",
+      padding: "1.5rem 0",
       width: "100%",
       backgroundColor: "#FFFFFF",
     }}>
-    <Grid is_flex width="1024px" height="150px" margin="auto">
+    <Grid is_flex width="1024px" height="170px" margin="auto">
       <Grid>Menu
         <Link to={`/`} style={{ textDecoration: 'none' }}><Menu>Home</Menu></Link>
         <Link to={`/post`} style={{ textDecoration: 'none' }}><Menu>Post</Menu></Link>
-        <Link to={`/myPage`} style={{ textDecoration: 'none' }}><Menu>User</Menu></Link>
+        <Link to={`/accounts/myPage`} style={{ textDecoration: 'none' }}><Menu>User</Menu></Link>
       </Grid>
       <Grid>Contanct us
-
         <P>김동현 | d_k067@student.usc.edu.au</P>
         <P>김바다 | padahkim@gmail.com</P>
         <P>박헤경 | hyekyoung1996@gmail.com</P>
