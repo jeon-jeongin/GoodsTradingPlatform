@@ -38,9 +38,9 @@ function Header() {
           </Grid>
           <Link to={`/`} style={{ textDecoration: 'none' }}><Menu>Home</Menu></Link>
           <Link to={`/post`} style={{ textDecoration: 'none' }}><Menu>Post</Menu></Link>
-          <Link to={`/myPage`} style={{ textDecoration: 'none' }}><Menu>User</Menu></Link>
-          <Button onClick={() => { window.location.href = "/login"; }}>Log In</Button>
-          <Button onClick={() => { window.location.href = "/singup"; }}>Sign Up</Button>
+          <Link to={`/accounts/myPage`} style={{ textDecoration: 'none' }}><Menu>User</Menu></Link>
+          <Link to={`/accounts/login`}><Button>Log In</Button></Link>
+          <Link to={`/accounts/singup`}><Button>Sign Up</Button></Link>
         </Grid>
       </div>
     </React.Fragment>
@@ -59,7 +59,7 @@ const InputWrap = styled.div`
   border-radius: 5px;
   border: solid 1px #E9ECEF;
   text-decoration: none;
-  height: 38px;
+  height: 40px;
   box-sizing: border-box;
   margin: 10px 20px;
 `;
@@ -91,7 +91,7 @@ const Menu = styled.div`
 `;
 
 const Button = styled.button`
-  width: 130px;
+  width: 90px;
   border-radius: 5px;
   border: solid 1px #E9ECEF;
   box-sizing: border-box;
@@ -101,7 +101,7 @@ const Button = styled.button`
   font-size: 14px;
   text-align: center;
   padding: 7px;
-  height: 38px;
+  height: 40px;
   margin: 0px 5px;
   background-color: #ffffff;
   color: #333333;
