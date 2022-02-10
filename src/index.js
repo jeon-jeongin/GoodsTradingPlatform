@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import TopButton from './elements/TopButton';
+import TopButton from './components/common/TopButton';
 
 
 ReactDOM.render(

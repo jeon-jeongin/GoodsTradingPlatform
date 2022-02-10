@@ -1,13 +1,13 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import LoginPage from '../../routes/LoginPage';
-import SignUpPage from '../../routes/SignUpPage'
+import LoginPage from '../LoginPage';
+import SignUpPage from '../signUpPage/SignUpPage';
 import MyPage from './MyPage';
 import MyPageRoutes from './mypage_menu/MyPageRoutes';
 
 
 
-function AccountRoutes() {
+function MemberRoutes() {
   return (
     <>
       <Routes>
@@ -20,4 +20,4 @@ function AccountRoutes() {
   );
 }
 
-export default AccountRoutes;
+export default MemberRoutes;

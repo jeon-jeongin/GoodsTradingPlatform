@@ -12,8 +12,10 @@ import Post from '../images/post.svg';
 import MyPage from '../images/my_page.svg';
 
 
-function Header() {
-  
+function Header({ userInfo, onLogout }) {
+
+  const { id } = userInfo;
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(event.target.value);
@@ -75,7 +77,7 @@ function Header() {
               <P>게시글</P>
             </Menu> 
           </Link>
-          <Link to={`/accounts/my_page`} className={styles.link}>
+          <Link to={`/member/my_page`} className={styles.link}>
             <Menu>
               <img
                 style={{ display: "block",
@@ -86,12 +88,30 @@ function Header() {
               <P>나의 정보</P>
             </Menu> 
           </Link>
-          <Link to={`/accounts/login`}>
-            <Button>Log In</Button>
-          </Link>
-          <Link to={`/accounts/sign_up`}>
-            <Button>Sign Up</Button>
-          </Link>
+          <li>
+              {id ? (
+                <span className={styles.span}>{`${id}님`}</span>
+              ) : (
+                <Link className={styles.link} to={`/member/login`}>
+                  <Button>Log In</Button>
+                </Link>
+              )}
+            </li>
+            <li>
+              {id ? (
+                <Button
+                  onClick={() => {
+                    onLogout();
+                  }}
+                >
+                  Log Out
+                </Button>
+              ) : (
+                <Link to={`/member/sign_up`}>
+                  <Button>Sign Up</Button>
+                </Link>
+              )}
+            </li>
         </Grid>
       </div>
     </>

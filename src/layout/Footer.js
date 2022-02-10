@@ -19,7 +19,7 @@ function Footer() {
           <Link to="/post" className={styles.link}>
             <Menu>Post</Menu>
           </Link>
-          <Link to="/accounts/my_page" className={styles.link}>
+          <Link to="/member/my_page" className={styles.link}>
             <Menu>MyPage</Menu>
           </Link>
         </Grid>
