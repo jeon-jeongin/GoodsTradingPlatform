@@ -5,9 +5,15 @@ import { Grid } from '../elements';
 import styled from 'styled-components';
 import styles from './css/Footer.module.css';
 
+function Footer({userInfo, onMyId}) {
 
+  const { userId } = userInfo;
 
-function Footer() {
+  const onLinkClick = (e) => {
+    e.preventDefault();
+    alert("로그인을 하셔야 본 서비스를 이용하실 수 있습니다.")
+  };
+
   return (
     <div className={styles.container}>
       <Grid is_flex width="1024px" height="170px" margin="auto">
@@ -19,9 +25,17 @@ function Footer() {
           <Link to="/post" className={styles.link}>
             <Menu>Post</Menu>
           </Link>
-          <Link to="/member/my_page" className={styles.link}>
-            <Menu>MyPage</Menu>
-          </Link>
+          <>
+            {userId ? (
+              <Link to={`/member/my_page`} className={styles.link} onClick={() => {onMyId(userId)}}>
+                <Menu>MyPage</Menu>
+              </Link>
+            ) : (
+              <Link to={`/`} className={styles.link} onClick={onLinkClick}>
+                <Menu>MyPage</Menu>
+              </Link>
+            )}
+          </>
         </Grid>
         <Grid>
           Contanct us

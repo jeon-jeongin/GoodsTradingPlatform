@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Grid } from "../../elements";
 import styles from "./myPage.module.css";
@@ -8,11 +8,14 @@ import wish_list from "../../images/wish_list.svg";
 import chat_list from "../../images/chat_list.svg";
 import order_list from "../../images/order_list.svg";
 
-const MyPage = () => {
+const MyPage = ({userInfo, userData, onWishId, onOrderId}) => {
+
+  const { userId } = userInfo;
+
   return (
     <div className={styles.container}>
       <Grid is_end width="1024px" margin="auto">
-        <Link to="wish_list" className={styles.link}>
+      <Link to="wish_list" className={styles.link} onClick={() => {onWishId(userId)}}>
           <Menu>
             <img
               style={{ display: "block",
@@ -34,7 +37,7 @@ const MyPage = () => {
             <P>채팅</P>
           </Menu>
         </Link>
-        <Link to="order_list" className={styles.link}>
+        <Link to="order_list" className={styles.link} onClick={() => {onOrderId(userId)}}>
           <Menu>
             <img
               style={{ display: "block",
@@ -47,10 +50,9 @@ const MyPage = () => {
         </Link>
       </Grid>
       <Grid width="1024px" margin="auto">
-        <Div>User님의 활동 이력 입니다.</Div>
         <Grid>
-          <Span>나의 정보</Span>  
-          <ProfileData></ProfileData>
+          <Span>나의 정보</Span>
+          <ProfileData userData={userData} userId={userId}></ProfileData>
         </Grid>
       </Grid>
     </div>
@@ -72,13 +74,6 @@ const P = styled.p`
   text-align: center;
   width: 50px;
   margin: auto;
-`;
-
-const Div = styled.div`
-  padding: 0 0 20px 12px;
-  font-size: 26px;
-  font-weight: bold;
-  color: #333333;
 `;
 
 const Span = styled.span`

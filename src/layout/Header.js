@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Grid } from "../elements";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Grid } from '../elements';
 
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from 'styled-components';
 import styles from './css/Header.module.css';
 
 import Logo from '../images/ourGoods.svg';
@@ -10,16 +10,46 @@ import SearchGlass from '../images/search.svg';
 import Home from '../images/home.svg';
 import Post from '../images/post.svg';
 import MyPage from '../images/my_page.svg';
+import AuthApis from '../api/AuthApis';
 
+function Header({ userInfo, onLogout, isLogon ,onMyId}) {
+  const { userId } = userInfo;
 
-function Header({ userInfo, onLogout }) {
+  const [searchInput, setSearchInput] = useState('');
+  const [ptitle, setPtitle] = useState('');
 
-  const { id } = userInfo;
+  const { keyword } = searchInput;
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(event.target.value);
-  }
+  const searchKeyword = async (searchInput) => {
+    try {
+      const response = await AuthApis.postSearch({ keyword });
+      console.log('searchKeyword값', response);
+      keywordHandler(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const keywordHandler = (response) => {
+    setPtitle(response.data.map(item => item));
+  };
+  
+  const handleChange = (event) => {
+    setSearchInput({
+        ...searchInput,
+        [event.target.name]: event.target.value,
+    })
+  };
+
+  const handleSubmit = () => {
+    searchKeyword(searchInput);
+    setSearchInput("");
+  };
+  
+  const onLinkClick = (e) => {
+  e.preventDefault();
+  alert("로그인을 하셔야 본 서비스를 이용하실 수 있습니다.")
+  };
 
   return (
     <>
@@ -34,23 +64,24 @@ function Header({ userInfo, onLogout }) {
       >
         <Grid is_flex padding="5px 0px" width="1024px" margin="auto">
           <Grid is_start maxwidth="700px">
-          <Link to={`/`}>
-            <img
-              width="150px"
-              height="40px"
-              src={Logo}
-              alt="굿즈 로고" />
-          </Link>
+            <Link to={`/`}>
+              <img width="150px" height="40px" src={Logo} alt="굿즈 로고" />
+            </Link>
             <InputWrap>
               <Grid is_flex>
-                <form>
-                  <Input placeholder="카테고리, 물품명 등을 검색하세요" onChange={handleSubmit}></Input>
-                  <SearchButton>
-                  <img
-                      style={{ marginRight: "10px" }}
+                <form onSubmit={handleSubmit}>
+                  <Input
+                    name="keyword"
+                    placeholder="카테고리, 물품명 등을 검색하세요"
+                    onChange={handleChange}
+                  ></Input>
+                  <SearchButton type='submit'>
+                    <img
+                      style={{ marginRight: '10px' }}
                       src={SearchGlass}
-                      alt="검색 돋보기" />
-                    </SearchButton>
+                      alt="검색 돋보기"
+                    />
+                  </SearchButton>
                 </form>
               </Grid>
             </InputWrap>
@@ -58,60 +89,74 @@ function Header({ userInfo, onLogout }) {
           <Link to={`/`} className={styles.link}>
             <Menu>
               <img
-                style={{ display: "block",
-                margin: "auto"
-              }}
+                style={{ display: 'block', margin: 'auto' }}
                 src={Home}
-                alt="메인페이지"/>
+                alt="메인페이지"
+              />
               <P>홈</P>
             </Menu>
           </Link>
-          <Link to={`/post`} className={styles.link}>
+          <Link to={`/postlist`} className={styles.link}>
             <Menu>
               <img
-                style={{ display: "block",
-                margin: "auto"
-              }}
+                style={{ display: 'block', margin: 'auto' }}
                 src={Post}
-                alt="게시물페이지" />
+                alt="게시물페이지"
+              />
               <P>게시글</P>
-            </Menu> 
-          </Link>
-          <Link to={`/member/my_page`} className={styles.link}>
-            <Menu>
-              <img
-                style={{ display: "block",
-                margin: "auto"
-              }}
-                src={MyPage}
-                alt="마이페이지" />
-              <P>나의 정보</P>
-            </Menu> 
+            </Menu>
           </Link>
           <li>
-              {id ? (
-                <span className={styles.span}>{`${id}님`}</span>
-              ) : (
-                <Link className={styles.link} to={`/member/login`}>
-                  <Button>Log In</Button>
-                </Link>
-              )}
-            </li>
-            <li>
-              {id ? (
-                <Button
-                  onClick={() => {
-                    onLogout();
-                  }}
-                >
-                  Log Out
-                </Button>
-              ) : (
-                <Link to={`/member/sign_up`}>
-                  <Button>Sign Up</Button>
-                </Link>
-              )}
-            </li>
+            {userId ? (
+              <Link to={`/member/my_page`} className={styles.link} onClick={() => {onMyId(userId)}}>
+              <Menu>
+              <img
+                style={{ display: 'block', margin: 'auto' }}
+                src={MyPage}
+                alt="마이페이지"
+              />
+              <P>마이페이지</P>
+              </Menu>
+              </Link>
+            ) : (
+              <Link to={`/`} className={styles.link} onClick={onLinkClick}>
+                <Menu>
+                <img
+                style={{ display: 'block', margin: 'auto' }}
+                src={MyPage}
+                alt="마이페이지"
+                />
+                <P>마이페이지</P>
+                </Menu>
+              </Link>
+            )}
+          </li>
+          <li>
+            {userId ? (
+              <span className={styles.span}>{`${userId}님`}</span>
+            ) : (
+              <Link className={styles.link} to={`/member/login`}>
+                <Button>Log In</Button>
+              </Link>
+            )}
+          </li>
+          <li>
+            {userId ? (
+              <Link to={`/`}>
+              <Button
+                onClick={() => {
+                  onLogout(isLogon)
+                }}
+              >
+                Log Out
+              </Button>
+              </Link>
+            ) : (
+              <Link to={`/member/sign_up`}>
+                <Button>Sign Up</Button>
+              </Link>
+            )}
+          </li>
         </Grid>
       </div>
     </>
@@ -124,7 +169,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
   }
-`
+`;
 const SearchButton = styled.button`
   background-color: transparent;
   border: hidden;
@@ -132,7 +177,7 @@ const SearchButton = styled.button`
 
 const InputWrap = styled.div`
   border-radius: 5px;
-  border: solid 1px #E9ECEF;
+  border: solid 1px #e9ecef;
   text-decoration: none;
   height: 40px;
   box-sizing: border-box;
@@ -148,14 +193,14 @@ const Input = styled.input`
   margin: auto;
   -webkit-appearance: none;
   background-color: transparent;
-  
-  &::placeholder{
+
+  &::placeholder {
     color: #999999;
   }
 `;
 
 const Menu = styled.div`
-  &:hover{
+  &:hover {
     background-color: #d3d3d3;
     border-radius: 5px;
   }
@@ -172,7 +217,7 @@ const P = styled.p`
 const Button = styled.button`
   width: 90px;
   border-radius: 5px;
-  border: solid 1px #E9ECEF;
+  border: solid 1px #e9ecef;
   box-sizing: border-box;
   text-decoration: none;
   display: inline-block;
@@ -185,8 +230,8 @@ const Button = styled.button`
   background-color: #ffffff;
   color: #333333;
 
-  &:hover{
-    background-color: #EC9A71;
+  &:hover {
+    background-color: #ec9a71;
     color: #ffffff;
   }
 `;
