@@ -1,11 +1,10 @@
-import React from "react";
-import { Grid } from "../elements";
+import { Grid } from "../../elements";
 import styled from "styled-components";
-import banner2 from "../img/banner2.png";
+import banner2 from "../../images/banner2.png";
 
 function Banner2(){
   return (
-    <React.Fragment>
+    <>
       <div style={{
         padding: "3rem 0",
         backgroundColor: "#FFFFFF",
@@ -14,7 +13,7 @@ function Banner2(){
         <Image1></Image1>
       </Grid>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

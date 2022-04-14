@@ -1,17 +1,16 @@
 import React from "react";
-import Content from "../components/Content";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-
+import Banner1 from "../components/home/Banner1";
+import Banner2 from "../components/home/Banner2";
+import Banner3 from "../components/home/Banner3";
 
 function Home() {
-    return (
+  return (
     <React.Fragment>
-        <Header></Header>
-        <Content></Content>
-        <Footer></Footer>
+      <Banner1></Banner1>
+      <Banner2></Banner2>
+      <Banner3></Banner3>
     </React.Fragment>
-    );
+  );
 }
 
 export default Home;
